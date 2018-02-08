@@ -22,3 +22,10 @@ with open(json_file, 'a+') as f:
 	for line in data:
 		f.write(line)
 
+print json.dumps(json.loads(url), indent=4, sort_keys=True)
+
+r = requests.get(url)
+with open(json_file, 'a+') as f:
+	f.write(r.text)
+
+
