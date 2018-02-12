@@ -30,3 +30,14 @@ with open(temp, 'a+') as f:
 
 with open(temp) as o:
 	#print json.dumps(json.loads(url), indent=4, sort_keys=True)
+	
+'''
+======
+Specs:
+======
+Closed at x Day/week Up or down by points & percent
+Paper gain/loss ([T/B]illion)
+Rose/fell x day/week in a row in the past y days/weeks
+
+
+'''
