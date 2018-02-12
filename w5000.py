@@ -38,6 +38,10 @@ Specs:
 Closed at x Day/week Up or down by points & percent
 Paper gain/loss ([T/B]illion)
 Rose/fell x day/week in a row in the past y days/weeks
-
+For the month/quarter w5000 is up/down x percent or y t/billion
+Since Jan 20, 2017 (Trump Inauguration) w5000 has gained/lost x percent or y t/billion
+Since Nov 8, 2016 (2016 Election) w5000 has gained/lost x percent or y t/billion
+Since Last market high (currently Jan 26, 2018) w5000 is up/down x percent or y t/billion
+Since Dec 15, 2015 (
 
 '''
