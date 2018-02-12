@@ -18,14 +18,15 @@ print soup#.find("div",{"id":"Lead-2-QuoteHeader-Proxy"})
 json_file = "w5000.json"
 url = "https://finance.google.com/finance?q=INDEXNYSEGIS:W5000&output=json"
 data = urllib2.urlopen(url)
-with open(json_file, 'a+') as f:
+with open(json_file, 'w+') as f:
 	for line in data:
 		f.write(line)
 
-print json.dumps(json.loads(url), indent=4, sort_keys=True)
 
+temp = "test.txt"
 r = requests.get(url)
-with open(json_file, 'a+') as f:
+with open(temp, 'a+') as f:
 	f.write(r.text)
 
-
+with open(temp) as o:
+	#print json.dumps(json.loads(url), indent=4, sort_keys=True)
