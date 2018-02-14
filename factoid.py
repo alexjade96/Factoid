@@ -14,7 +14,11 @@ df = xl.parse(sheet1)
 df.head()
 
 #df has -2 rows (For Column Title & index row 0)
-print df.head()
-#print df.tail()
-print df[9715:9721]
+#print df.head()
+print df.tail(22)
+df.dropna(thresh=2)
+print df.tail(22)
+#print df[9715:9721]
+#print df[:-22].dropna(thresh=2)
 
+#Use [Max - 27] to get latest Date
