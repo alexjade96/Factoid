@@ -28,4 +28,15 @@ print df.tail(22)
 3) Generate new table/spreadsheet with strict definition for easier data manip.
 '''
 
-
+def hist_comp(value):
+'''
+Jan 20 2017
+Nov 8 2016
+Jan 26 2018
+Feb 11 2016
+Dec 15 2015
+Sept 12 2012
+Aug 26 2010
+Mar 9 2009
+Oct 9 2007
+'''
