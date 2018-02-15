@@ -30,13 +30,14 @@ print df.tail(22)
 
 def term(value):
 '''
-Day
-Month
-Quarter
+Day close
+Month-month end
+Quarter-quarter end
 '''
 
 def hist_comp(value):
 '''
+Store Recent High/Recent Low
 Jan 20 2017
 D9475
 Nov 8 2016
