@@ -22,3 +22,10 @@ print df.tail(22)
 #print df[:-22].dropna(thresh=2)
 
 #Use [Max - 27] to get latest Date
+'''
+1) Define & use formulas outside of xlsx worksheet/inside script
+2) Use COM/win32 to use existing Excel formulas (win dev only)
+3) Generate new table/spreadsheet with strict definition for easier data manip.
+'''
+
+
