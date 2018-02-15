@@ -38,21 +38,21 @@ Quarter
 def hist_comp(value):
 '''
 Jan 20 2017
-
+D9475
 Nov 8 2016
-
+D9426
 Jan 26 2018
 
 Feb 11 2016
 
 Dec 15 2015
-
+D9199
 Sept 12 2012
-
+D8380
 Aug 26 2010
-
+D7864
 Mar 9 2009
-
+D7493
 Oct 9 2007
-
+D7138
 '''
