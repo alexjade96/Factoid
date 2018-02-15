@@ -38,14 +38,15 @@ Quarter-quarter end
 def hist_comp(value):
 '''
 Store Recent High/Recent Low
-Jan 20 2017
-D9475
-Nov 8 2016
-D9426
 Jan 26 2018
 
 Feb 11 2016
 
+
+Jan 20 2017
+D9475
+Nov 8 2016
+D9426
 Dec 15 2015
 D9199
 Sept 12 2012
