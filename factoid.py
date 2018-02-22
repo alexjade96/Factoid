@@ -31,8 +31,13 @@ print df.tail(22)
 def term(value):
 '''
 Day close
+get_close_value()
 Month-month end
+datetime.datetime.strftime("%m")
 Quarter-quarter end
+if datetime.datetime.strftime("%m") % 3:
+	pre-val = get [datetime.datetime.strftime("%m") - 3]
+	
 '''
 
 def hist_comp(value):

@@ -42,7 +42,7 @@ For the month/quarter w5000 is up/down x percent or y t/billion
 Since Jan 20, 2017 (Trump Inauguration) w5000 has gained/lost x percent or y t/billion
 Since Nov 8, 2016 (2016 Election) w5000 has gained/lost x percent or y t/billion
 Since Last market high (currently Jan 26, 2018) w5000 is up/down x percent or y t/billion
-Since Dec 15, 2015 (close before Fed Reserve raised int rates for 1st time since June 29 2006) w5000 up x percent or y t/billion
+Since Dec 15, 2015 (close before Fed Reserve raised int rates for 1st time since June 29 2006) w5000 up x percent or y t/billiongit 
 Since Sept 12 2012 close before Bernanke revealed QE3, w5000 up x y 
 Since Aug 26 2010 close before Bernanke revealed QE2, w5000 up x y
 w5000 up x y from the Financial Crisis low of Mar 9 2009
