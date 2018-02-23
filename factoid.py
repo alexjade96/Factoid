@@ -58,25 +58,31 @@ For line in file:
 		current-low = line[index-for-current-low]
 		low-date = line[date-for-current-low]
 
-Jan 20 2017 (Trump Inaug)
+Jan 20 2017 "the close on the day of the Trump Inauguration"
 D9475
 23744.73
-Nov 8 2016
+
+Nov 8 2016 "the close on the day of the 2016 Election"
 D9426
 22165.78
-Dec 15 2015
+
+Dec 15 2015 "the close before the Federal Reserve raised interest rates for the first time since June 29, 2006"
 D9199
 21099.58
-Sept 12 2012
+
+Sept 12 2012 "the close before Bernanke revealed QE2"
 D8380
 15038.58
-Aug 26 2010
+
+Aug 26 2010 "the close before Bernanke revealed QE3"
 D7864
 10973.00
-Mar 9 2009
+
+Mar 9 2009 "the financial Crisis low"
 D7493
 6858.43
-Oct 9 2007
+
+Oct 9 2007 "the old market high"
 D7138
 15806.69
 '''
