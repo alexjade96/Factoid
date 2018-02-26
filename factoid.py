@@ -5,6 +5,22 @@ import sys,os
 import json
 import csv
 
+'''
+Factoid Possible Headers:
+
+A) Date
+B) Value at Close
+C) Change from last day
+D) % Change from last day
+E) Change from last month
+F) % Change from last month
+G) Change from last Quarter
+H) % Change from last Quarter
+I) Current Market High
+J) Recent Market Low
+
+'''
+
 xl_file = "Wilshire Factoid Worksheet.xlsx"
 sheet1 = "201801xx"
 
