@@ -4,6 +4,7 @@ import requests
 import urllib2
 import sys,os
 import json
+import time
 import csv
 
 '''
@@ -61,9 +62,10 @@ def close_compare(close_value, operand_value):
 	#Return (percentage change, money value difference)
 
 def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
+	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
 	mod = lambda x: "up " + str(x) if x >= 0 else "down " + str(x)
 	dol = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
-	print "Since " + str(VAL_DATE) + ", the Wilshire 5000 is " + mod(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)#str(VAL_DOLLAR)
+	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + mod(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
 
 '''
 Day close
