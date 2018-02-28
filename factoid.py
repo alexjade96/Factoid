@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 import requests
 import urllib2
 import sys,os
@@ -29,6 +30,13 @@ xl.sheet_names
 df = xl.parse(sheet1)
 df.head()
 
+dates = [
+	datetime.datetime.strftime("%Y%m%d"),
+	datetime.datetime.strftime("%Y%m01"),
+
+]
+
+
 #df has -2 rows (For Column Title & index row 0)
 #print df.head()
 print df.tail(22)
@@ -47,10 +55,13 @@ print df.tail(22)
 #input: close value, date
 #use: historical values (yesterday, last month, last quarter)
 #output: Range of comparison values 
-func = lambda x,y: 
+
 def close_compare(close_value, operand_value):
 	
-	#Return (close percentage, close money value)
+	#Return (percentage change, money value difference)
+
+def print_out(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
+	print "Since " + VAL_DATE + ", the Wilshire 5000 is " + VAL+PERCENT +" percent, or approximately $" + VAL_DOLLAR
 
 def term(value):
 '''
@@ -105,8 +116,9 @@ D7864
 Mar 9 2009 "the financial Crisis low"
 D7493
 6858.43
-
+(20090309,6858.43)
 Oct 9 2007 "the old market high"
 D7138
 15806.69
+(20071009,15806.69)
 '''
