@@ -63,9 +63,9 @@ def close_compare(close_value, operand_value):
 
 def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
-	mod = lambda x: "up " + str(x) if x >= 0 else "down " + str(x)
+	per = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
 	dol = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
-	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + mod(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
+	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + per(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
 
 '''
 Day close
