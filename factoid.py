@@ -44,6 +44,14 @@ print df.tail(22)
 3) Generate new table/spreadsheet with strict definition for easier data manip.
 '''
 
+#input: close value, date
+#use: historical values (yesterday, last month, last quarter)
+#output: Range of comparison values 
+func = lambda x,y: 
+def close_compare(close_value, operand_value):
+	
+	#Return (close percentage, close money value)
+
 def term(value):
 '''
 Day close
