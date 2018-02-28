@@ -60,10 +60,10 @@ def close_compare(close_value, operand_value):
 	
 	#Return (percentage change, money value difference)
 
-def print_out(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
-	print "Since " + VAL_DATE + ", the Wilshire 5000 is " + VAL+PERCENT +" percent, or approximately $" + VAL_DOLLAR
+def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
+	mod = lambda VAL_PERCENT: "up " if VAL_PERCENT > 0 else "down "
+	print "Since " + VAL_DATE + ", the Wilshire 5000 is " + mod + VAL_PERCENT +" percent, or approximately $" + VAL_DOLLAR
 
-def term(value):
 '''
 Day close
 get_close_value()
