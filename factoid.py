@@ -23,7 +23,7 @@ J) Recent Market Low
 
 '''
 
-xl_file = "Wilshire Factoid Worksheet.xlsx"
+xl_file = "Wilshire Factoid Template.xlsx"
 sheet1 = "201801xx"
 
 xl = pd.ExcelFile(xl_file)
@@ -32,16 +32,21 @@ df = xl.parse(sheet1)
 df.head()
 
 comparisons = [
-	datetime.datetime.strftime("%Y%m%d"),
-	datetime.datetime.strftime("%Y%m01"),
-
+	"20180221",
+	#datetime.datetime.now().strftime("%Y%m%d"),
+	#datetime.datetime.now().strftime("%Y%m01"),
 ]
-
+Input = 1
 #df has -2 rows (For Column Title & index row 0)
 #print df.head()
-print df.tail(22)
-df.dropna(thresh=2)
-print df.tail(22)
+#print df.tail()
+for index, row in df.iterrows():
+	for line in comparisons:
+		if line in str(row):
+			print row
+#print df.tail(22)
+#df.dropna(thresh=2)
+#print df.tail(22)
 #print df[9715:9721]
 #print df[:-22].dropna(thresh=2)
 
@@ -56,51 +61,44 @@ print df.tail(22)
 #use: historical values (yesterday, last month, last quarter)
 #output: Range of comparison values 
 
-'''
 #Jan 20 2017 "the close on the day of the Trump Inauguration"
-D9475
-23744.73
+#D9475
 Trump_Inaug = [20170120,23744.73,"the close on the day of the Trump Inauguration"]
 float(1.00 - Input/Trump_Inaug[0])
 
 #Nov 8 2016 "the close on the day of the 2016 Election"
-D9426
-22165.78
+#D9426
 Election = [20161108,22165.78,"the close on the day of the 2016 Election"]
 float(1.00 - Input/Election[0])
 
 #Dec 15 2015 "the close before the Federal Reserve raised interest rates for the first time since June 29, 2006"
-D9199
-21099.58
-Intrest_raise = [20151215,21099.58,"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006"]
-float(1.00 - Input/Intrest_raise[0])
+#D9199
+Interest_raise = [20151215,21099.58,"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006"]
+float(1.00 - Input/Interest_raise[0])
 
 #Sept 12 2012 "the close before Bernanke revealed QE3"
-D8380
-15038.58
+#D8380
 QE3 = [20120912,15038.58,"the close before Bernanke revealed QE3"]
 float(1.00 - Input/QE3[0])
 
 #Aug 26 2010 "the close before Bernanke revealed QE2"
-D7864
-10973.00
+#D7864
 QE2 = [20100826,10973.00,"the close before Bernanke revealed QE2"]
 float(1.00 - Input/QE2[0])
 
 #Mar 9 2009 "the financial Crisis low"
-D7493
-6858.43
+#D7493
 crisis_low = [20090309,6858.43,"the Financial Crisis low"]
-float(1.00 - Input/Crisis_low[0])
+float(1.00 - Input/crisis_low[0])
 
 #Oct 9 2007 "the old market high"
-D7138
-15806.69
+#D7138
 old_market_high = [20071009,15806.69,"the old Market High"]
-float(1.00 - Input/Old_Market_High[0])
-'''
+float(1.00 - Input/old_market_high[0])
+
 def close_compare(close_value, operand_value):
-	
+	VAL_PERCENT = 1
+	VAL_DOLLAR = 100
 	return VAL_PERCENT, VAL_DOLLAR
 	#Return (percentage change, money value difference)
 
