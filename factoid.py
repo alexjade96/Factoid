@@ -43,8 +43,9 @@ Input = 1
 #print df.head()
 #print df.tail()
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
-for item in comparisons:
-	print df['Wilshire 5000 (Full Cap) Price'].str.contains(str(item))#.isin(comparisons)
+print df.iloc[0]
+#for item in comparisons:
+	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(str(item))#.isin(comparisons)
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
 #print type(df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)])
 #<class 'pandas.core.frame.DataFrame'>
