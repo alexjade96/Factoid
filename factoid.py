@@ -32,7 +32,9 @@ df = xl.parse(sheet1)
 df.head()
 
 comparisons = [
-	"20180221",
+	'20180219',
+	'20180220',
+	'20180221',
 	#datetime.datetime.now().strftime("%Y%m%d"),
 	#datetime.datetime.now().strftime("%Y%m01"),
 ]
@@ -40,10 +42,16 @@ Input = 1
 #df has -2 rows (For Column Title & index row 0)
 #print df.head()
 #print df.tail()
-for index, row in df.iterrows():
+#print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
+for item in comparisons:
+	print df['Wilshire 5000 (Full Cap) Price'].str.contains(str(item))#.isin(comparisons)
+#print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
+#print type(df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)])
+#<class 'pandas.core.frame.DataFrame'>
+'''for index, row in df.iterrows():
 	for line in comparisons:
 		if line in str(row):
-			print row
+			print row'''
 #print df.tail(22)
 #df.dropna(thresh=2)
 #print df.tail(22)
