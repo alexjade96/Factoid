@@ -22,7 +22,6 @@ I) Current Market High
 J) Recent Market Low
 
 '''
-
 xl_file = "Wilshire Factoid Template.xlsx"
 sheet1 = "201801xx"
 
@@ -31,25 +30,31 @@ xl.sheet_names
 df = xl.parse(sheet1)
 df.head()
 
-comparisons = [
-	'20180219',
-	'20180220',
-	'20180221',
-	#datetime.datetime.now().strftime("%Y%m%d"),
-	#datetime.datetime.now().strftime("%Y%m01"),
-]
-Input = 1
 #df has -2 rows (For Column Title & index row 0)
 #print df.head()
 #print df.tail()
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
 #print df.iloc[9746]
-
-#for item in comparisons:
+comparisons = [
+	20071009,
+	20090309,
+	20100826,
+	20120912,
+	20151215,
+	20160211,
+	20180126,
+	20180219,
+	20180220,
+	20180221,
+	datetime.datetime.now().strftime("%Y%m01"),
+	datetime.datetime.now().strftime("%Y%m%d")
+	datetime.datetime.now().strftime("%Y%m%d")
+]
+for item in comparisons:
+	print type(item),item
 	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
-#print df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)
-#print type(df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)])
-#<class 'pandas.core.frame.DataFrame'>
+print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
+
 def append_line():
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
@@ -75,7 +80,7 @@ def append_line():
 #input: close value, date
 #use: historical values (yesterday, last month, last quarter)
 #output: Range of comparison values 
-
+Input = 1
 #Jan 20 2017 "the close on the day of the Trump Inauguration"
 #D9475
 Trump_Inaug = [20170120,23744.73,"the close on the day of the Trump Inauguration"]
