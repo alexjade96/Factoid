@@ -43,12 +43,18 @@ Input = 1
 #print df.head()
 #print df.tail()
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
-print df.iloc[0]
+#print df.iloc[9746]
+
 #for item in comparisons:
-	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(str(item))#.isin(comparisons)
-#print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
+	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
+#print df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)
 #print type(df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)])
 #<class 'pandas.core.frame.DataFrame'>
+def append_line():
+	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
+	df = df.append(test_insert)
+	print df.tail(2)
+
 '''for index, row in df.iterrows():
 	for line in comparisons:
 		if line in str(row):
@@ -60,7 +66,7 @@ print df.iloc[0]
 #print df[:-22].dropna(thresh=2)
 
 #Use [Max - 27] to get latest Date
-
+#yesterday = df.tail(1)
 '''
 1) Define & use formulas outside of xlsx worksheet/inside script
 2) Use COM/win32 to use existing Excel formulas (win dev only)
