@@ -1,3 +1,4 @@
+from datetime import timedelta
 import pandas as pd
 import datetime
 import requests
@@ -30,36 +31,36 @@ xl.sheet_names
 df = xl.parse(sheet1)
 df.head()
 
-#df has -2 rows (For Column Title & index row 0)
-#print df.head()
-#print df.tail()
-#print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
-#print df.iloc[9746]
-comparisons = [
+specs = [
 	20071009,
 	20090309,
 	20100826,
 	20120912,
 	20151215,
 	20160211,
+	20161108,
+	20170120,
 	20180126,
 	20180219,
 	20180220,
 	20180221,
-	datetime.datetime.now().strftime("%Y%m01"),
-	datetime.datetime.now().strftime("%Y%m%d")
-	datetime.datetime.now().strftime("%Y%m%d")
+	int(datetime.datetime.now().strftime("%Y%m01")),
+	int((datetime.datetime.today() - timedelta(days=1)).strftime("%Y%m%d")),
+	int(datetime.datetime.now().strftime("%Y%m%d"))
 ]
-for item in comparisons:
+for item in specs:
 	print type(item),item
+#for item in specs:
+	#print type(item),item
 	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
-print df[df['Wilshire 5000 (Full Cap) Price'].isin(comparisons)]
+#print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)]
+print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
 
-def append_line():
+def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
 	print df.tail(2)
-
+#append_line(df)
 '''for index, row in df.iterrows():
 	for line in comparisons:
 		if line in str(row):
