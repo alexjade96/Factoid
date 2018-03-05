@@ -48,6 +48,7 @@ specs = [
 	int((datetime.datetime.today() - timedelta(days=1)).strftime("%Y%m%d")),
 	int(datetime.datetime.now().strftime("%Y%m%d"))
 ]
+
 for item in specs:
 	print type(item),item
 #for item in specs:
@@ -55,6 +56,12 @@ for item in specs:
 	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)]
 print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
+
+temp = df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
+
+for i in range(0,temp.shape[0]):
+	for j in range(0,temp.shape[1]):
+		print "("+str(i)+","+str(j)+")",df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[i,j]
 
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
