@@ -29,7 +29,6 @@ sheet1 = "201801xx"
 xl = pd.ExcelFile(xl_file)
 xl.sheet_names
 df = xl.parse(sheet1)
-df.head()
 
 specs = [
 	20071009,
@@ -129,12 +128,6 @@ float(1.00 - val/crisis_low[0])
 #D7138
 old_market_high = [20071009,15806.69,"the old Market High"]
 float(1.00 - val/old_market_high[0])
-
-def close_compare(close_value, operand_value):
-	VAL_PERCENT = 1
-	VAL_DOLLAR = 100
-	return VAL_PERCENT, VAL_DOLLAR
-	#Return (percentage change, money value difference)
 
 def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
