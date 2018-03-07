@@ -55,13 +55,18 @@ for item in specs:
 	#print type(item),item
 	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)]
-print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
-
 temp = df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
-
+print temp
 for i in range(0,temp.shape[0]):
 	for j in range(0,temp.shape[1]):
 		print "("+str(i)+","+str(j)+")",df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[i,j]
+
+test = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
+print test
+for n in range(0,test.shape[0]):
+	print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
+
+lambda input,desc: float(1.00 - input/desc)
 
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
