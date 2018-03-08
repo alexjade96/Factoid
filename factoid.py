@@ -48,12 +48,18 @@ specs = [
 	int(datetime.datetime.now().strftime("%Y%m%d"))
 ]
 
-for item in specs:
-	print type(item),item
+#print df.tail(22)
+#df.dropna(thresh=2)
+#print df.tail(22)
+#print df[9715:9721]
+#print df[:-22].dropna(thresh=2)
+#Use [Max - 27] to get latest Date
+#yesterday = df.tail(1)
+
 #for item in specs:
-	#print type(item),item
 	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
 #print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)]
+
 temp = df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
 print temp
 for i in range(0,temp.shape[0]):
@@ -65,11 +71,8 @@ print test
 for n in range(0,test.shape[0]):
 	print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
 
-def set_list(specs)
-for VAL_DATE in specs:
-	val = df.iloc[VAL_DATE]
-	print val
-	VAL_PERCENT = lambda val,desc: float(1.00 - val/desc)
+VAL_PERCENT = lambda val,desc: float(1.00 - val/desc)
+
 
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
@@ -77,14 +80,7 @@ def append_line(df):
 	print df.tail(2)
 #append_line(df)
 
-#print df.tail(22)
-#df.dropna(thresh=2)
-#print df.tail(22)
-#print df[9715:9721]
-#print df[:-22].dropna(thresh=2)
 
-#Use [Max - 27] to get latest Date
-#yesterday = df.tail(1)
 '''
 1) Define & use formulas outside of xlsx worksheet/inside script
 2) Use COM/win32 to use existing Excel formulas (win dev only)
