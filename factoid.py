@@ -1,3 +1,4 @@
+from pandas.tseries.offsets import BDay
 from datetime import timedelta
 import pandas as pd
 import datetime
@@ -44,7 +45,8 @@ specs = [
 	20180220,
 	20180221,
 	int(datetime.datetime.now().strftime("%Y%m01")),
-	int((datetime.datetime.today() - timedelta(days=1)).strftime("%Y%m%d")),
+	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
+	int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")),
 	int(datetime.datetime.now().strftime("%Y%m%d"))
 ]
 
@@ -62,17 +64,23 @@ specs = [
 
 temp = df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
 print temp
-for i in range(0,temp.shape[0]):
-	for j in range(0,temp.shape[1]):
-		print "("+str(i)+","+str(j)+")",df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[i,j]
+#for i in range(0,temp.shape[0]):
+	#for j in range(0,temp.shape[1]):
+		#print "("+str(i)+","+str(j)+")",df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[i,j]
 
 test = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
 print test
-for n in range(0,test.shape[0]):
-	print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
+current = df.tail(1).iloc[:,[0.3]]
+print current
+#for n in range(0,test.shape[0]):
+	#print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
 
 VAL_PERCENT = lambda val,desc: float(1.00 - val/desc)
+#lambda l,d,v,m: l.append[x] for x in 
+#x for x in 
 
+#Need Date, Value
+#Calculate percentage, difference, dollar amount, dollar difference
 
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
