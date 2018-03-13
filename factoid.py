@@ -70,8 +70,10 @@ print temp
 
 test = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
 print test
-current = df.tail(1).iloc[:,[0.3]]
+current = df.tail(1).iloc[:,[0,3]]
 print current
+val = float(df.tail(1).iloc[:,3])
+print val
 #for n in range(0,test.shape[0]):
 	#print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
 
@@ -81,6 +83,18 @@ VAL_PERCENT = lambda val,desc: float(1.00 - val/desc)
 
 #Need Date, Value
 #Calculate percentage, difference, dollar amount, dollar difference
+#Store as lists?
+Trump_Inaug,Election,Int_Raise,QE2,QE3,Crisis_Low,Old_High,= ([] for i in range(7))
+
+milestones = {
+	20170120:"the close on the day of the Trump Inauguration",
+	20161108:"the close on the day of the 2016 Election",
+	20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
+	20120912:"the close before Bernanke revealed QE3",
+	20100826:"the close before Bernanke revealed QE2",
+	20090309:"the Financial Crisis low",
+	20071009:"the old Market High"
+}
 
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
