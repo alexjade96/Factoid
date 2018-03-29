@@ -31,62 +31,33 @@ xl = pd.ExcelFile(xl_file)
 xl.sheet_names
 df = xl.parse(sheet1)
 
+#Function to get fiscal quarter month for a given datetime date object: VAR = quarter(datetime.datetime.today())
+today = datetime.datetime.today()
+quarter = lambda q: [q.strftime("%Y"+"%02d" % ((m-1)//3 + 1)+"01") for m in range(1,13) if "%02d" % m == q.strftime("%m")]
+
 specs = [
-	20071009,
-	20090309,
-	20100826,
-	20120912,
-	20151215,
-	20160211,
-	20161108,
-	20170120,
-	20180126,
-	20180219,
-	20180220,
-	20180221,
-	int(datetime.datetime.now().strftime("%Y%m01")),
+	int(datetime.datetime.now().strftime("%Y%m%d")),
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
-	int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")),
-	int(datetime.datetime.now().strftime("%Y%m%d"))
+	int(datetime.datetime.now().strftime("%Y%m01")),
+	int(quarter(datetime.datetime.now())[0]),
+	20180221,
+	20180220,
+	20180219,
+	20180126,
+	20170120,
+	20161108,
+	20160211,
+	20151215,
+	20120912,
+	20100826,
+	20090309,
+	20071009
 ]
 
-#print df.tail(22)
-#df.dropna(thresh=2)
-#print df.tail(22)
-#print df[9715:9721]
-#print df[:-22].dropna(thresh=2)
-#Use [Max - 27] to get latest Date
-#yesterday = df.tail(1)
-
-#for item in specs:
-	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
-#print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)]
-
-temp = df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
-print temp
-#for i in range(0,temp.shape[0]):
-	#for j in range(0,temp.shape[1]):
-		#print "("+str(i)+","+str(j)+")",df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[i,j]
-
-test = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
-print test
-current = df.tail(1).iloc[:,[0,3]]
-print current
-val = float(df.tail(1).iloc[:,3])
-print val
-#for n in range(0,test.shape[0]):
-	#print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
-
-VAL_PERCENT = lambda val,desc: float(1.00 - val/desc)
-#lambda l,d,v,m: l.append[x] for x in 
-#x for x in 
-
-#Need Date, Value
-#Calculate percentage, difference, dollar amount, dollar difference
-#Store as lists?
-Trump_Inaug,Election,Int_Raise,QE2,QE3,Crisis_Low,Old_High,= ([] for i in range(7))
-
 milestones = {
+	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
+	int(datetime.datetime.now().strftime("%Y%m01")):"the month",
+	int(quarter(datetime.datetime.now())[0]):"the quarter",
 	20170120:"the close on the day of the Trump Inauguration",
 	20161108:"the close on the day of the 2016 Election",
 	20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
@@ -102,6 +73,74 @@ def append_line(df):
 	print df.tail(2)
 #append_line(df)
 
+def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
+	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
+	per = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
+	dol = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
+	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + per(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
+
+compare = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
+cur_close = int(df.tail(1).iloc[:,0])
+cur_val = float(df.tail(1).iloc[:,3])
+#print "cur",cur_close,cur_val
+VAL_PERCENT = lambda val,pre: round(float(1.00 - val/pre),2)
+for index, row in compare.iterrows():
+	d = int(row[0])
+	if int(row[0]) in milestones:
+		desc = milestones[int(row[0])]
+	val = float(row[1])
+	perc = VAL_PERCENT(val,cur_val)
+	print type(d),d
+	print type(desc),desc
+	print type(val),val
+	print type(perc),perc
+
+#print df.tail(22)
+#df.dropna(thresh=2)
+#print df.tail(22)
+#print df[9715:9721]
+#print df[:-22].dropna(thresh=2)
+#Use [Max - 27] to get latest Date
+#yesterday = df.tail(1)
+
+#for item in specs:
+	#print df['Wilshire 5000 (Full Cap) Price'].str.contains(item)#.isin(comparisons)
+#print df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)]
+
+#for i in range(0,temp.shape[0]):
+	#for j in range(0,temp.shape[1]):
+		#print "("+str(i)+","+str(j)+")",df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[i,j]
+'''
+#Get range of columns
+temp = df[df['Wilshire 5000 (Full Cap) Price'].isin(specs)].iloc[:,0:4]
+print "temp",temp
+#Get all items listed from specs
+test = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
+print "test",test
+#Get spec item + close value
+current = df.tail(1).iloc[:,[0,3]]
+print "current",current
+#Get pure value
+val = float(df.tail(1).iloc[:,3])
+print "val",val
+#Get pure date/val info
+info = test.to_csv(header=None,index=False)
+print "info",info
+
+for index, row in test.iterrows():
+	print row[0],row[1]
+'''
+#for item in info:
+#	print type(item),item
+	#blah = df.iloc[item:,[0,3]]
+	#print "blah",blah
+#for n in range(0,test.shape[0]):
+	#print type(test.iloc[n,0]),test.iloc[n,0],type(test.iloc[n,1]),test.iloc[n,1]
+
+#Need Date, Value
+#Calculate percentage, difference, dollar amount, dollar difference
+#Store as lists?
+Trump_Inaug,Election,Int_Raise,QE2,QE3,Crisis_Low,Old_High,= ([] for i in range(7))
 
 '''
 1) Define & use formulas outside of xlsx worksheet/inside script
@@ -146,12 +185,6 @@ float(1.00 - val/crisis_low[0])
 #D7138
 old_market_high = [20071009,15806.69,"the old Market High"]
 float(1.00 - val/old_market_high[0])
-
-def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
-	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
-	per = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
-	dol = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
-	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + per(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
 
 '''
 Day close
