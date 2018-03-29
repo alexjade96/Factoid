@@ -30,10 +30,13 @@ sheet1 = "201801xx"
 xl = pd.ExcelFile(xl_file)
 xl.sheet_names
 df = xl.parse(sheet1)
+compare = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
 
 #Function to get fiscal quarter month for a given datetime date object: VAR = quarter(datetime.datetime.today())
 today = datetime.datetime.today()
 quarter = lambda q: [q.strftime("%Y"+"%02d" % ((m-1)//3 + 1)+"01") for m in range(1,13) if "%02d" % m == q.strftime("%m")]
+q = quarter(datetime.datetime.now())[0]
+print datetime.datetime.strptime(q,"%Y%m%d").weekday()
 
 specs = [
 	int(datetime.datetime.now().strftime("%Y%m%d")),
@@ -79,20 +82,21 @@ def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
 	dol = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
 	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + per(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
 
-compare = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
 cur_close = int(df.tail(1).iloc[:,0])
 cur_val = float(df.tail(1).iloc[:,3])
 #print "cur",cur_close,cur_val
-VAL_PERCENT = lambda val,pre: round(float(1.00 - val/pre),2)
+
+#Start Comparison
 for index, row in compare.iterrows():
 	d = int(row[0])
 	if int(row[0]) in milestones:
 		desc = milestones[int(row[0])]
-	val = float(row[1])
-	perc = VAL_PERCENT(val,cur_val)
+	pre_val = float(row[1])
+	perc = round(float(1.00 - cur_val/pre_val),2)
+	dol = round(float(    ),1)
 	print type(d),d
 	print type(desc),desc
-	print type(val),val
+	print type(pre_val),pre_val
 	print type(perc),perc
 
 #print df.tail(22)
