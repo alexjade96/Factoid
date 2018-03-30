@@ -38,7 +38,7 @@ specs = [
 milestones = {
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
 	int(datetime.datetime.now().strftime("%Y%m01")):"the start of the month",
-	int(quarter(datetime.datetime.now())[0]):"the quarter",
+	int(quarter(datetime.datetime.now())[0]):"the beginning of the quarter",
 	20170120:"the close on the day of the Trump Inauguration",
 	20161108:"the close on the day of the 2016 Election",
 	20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
@@ -87,7 +87,8 @@ def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 cur_close = int(df.tail(1).iloc[:,0])
 cur_val = float(df.tail(1).iloc[:,3])
 print "cur",cur_close,cur_val
-
+print df.tail(2).head(1).iloc[:,[0,3]]
+print compare
 #Start Comparison
 for index, row in compare.iterrows():
 	if int(row[0]) in milestones:
