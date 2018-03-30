@@ -9,6 +9,45 @@ import json
 import time
 import csv
 
+#Function to get fiscal quarter month for a given datetime date object: VAR = quarter(datetime.datetime.today())
+today = datetime.datetime.today()
+quarter = lambda q: [q.strftime("%Y"+"%02d" % ((m-1)//3 + 1)+"01") for m in range(1,13) if "%02d" % m == q.strftime("%m")]
+q = quarter(datetime.datetime.now())[0]
+#print datetime.datetime.strptime(q,"%Y%m%d").weekday()
+#if quarter(today) not in 
+
+specs = [
+	int(datetime.datetime.now().strftime("%Y%m%d")),
+	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
+	int(datetime.datetime.now().strftime("%Y%m01")),
+	int(quarter(datetime.datetime.now())[0]),
+	20180221,
+	20180220,
+	20180219,
+	20180126,
+	20170120,
+	20161108,
+	20160211,
+	20151215,
+	20120912,
+	20100826,
+	20090309,
+	20071009
+]
+
+milestones = {
+	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
+	int(datetime.datetime.now().strftime("%Y%m01")):"the start of the month",
+	int(quarter(datetime.datetime.now())[0]):"the quarter",
+	20170120:"the close on the day of the Trump Inauguration",
+	20161108:"the close on the day of the 2016 Election",
+	20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
+	20120912:"the close before Bernanke revealed QE3",
+	20100826:"the close before Bernanke revealed QE2",
+	20090309:"the Financial Crisis low",
+	20071009:"the old Market High"
+}
+
 '''
 Factoid Possible Headers:
 
@@ -32,72 +71,38 @@ xl.sheet_names
 df = xl.parse(sheet1)
 compare = df[df.iloc[:,0].isin(specs)].iloc[:,[0,3]]
 
-#Function to get fiscal quarter month for a given datetime date object: VAR = quarter(datetime.datetime.today())
-today = datetime.datetime.today()
-quarter = lambda q: [q.strftime("%Y"+"%02d" % ((m-1)//3 + 1)+"01") for m in range(1,13) if "%02d" % m == q.strftime("%m")]
-q = quarter(datetime.datetime.now())[0]
-print datetime.datetime.strptime(q,"%Y%m%d").weekday()
-
-specs = [
-	int(datetime.datetime.now().strftime("%Y%m%d")),
-	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
-	int(datetime.datetime.now().strftime("%Y%m01")),
-	int(quarter(datetime.datetime.now())[0]),
-	20180221,
-	20180220,
-	20180219,
-	20180126,
-	20170120,
-	20161108,
-	20160211,
-	20151215,
-	20120912,
-	20100826,
-	20090309,
-	20071009
-]
-
-milestones = {
-	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
-	int(datetime.datetime.now().strftime("%Y%m01")):"the month",
-	int(quarter(datetime.datetime.now())[0]):"the quarter",
-	20170120:"the close on the day of the Trump Inauguration",
-	20161108:"the close on the day of the 2016 Election",
-	20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
-	20120912:"the close before Bernanke revealed QE3",
-	20100826:"the close before Bernanke revealed QE2",
-	20090309:"the Financial Crisis low",
-	20071009:"the old Market High"
-}
-
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
 	print df.tail(2)
 #append_line(df)
 
-def statement(VAL_DATE,VAL_PERCENT,VAL_DOLLAR):
+def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
-	per = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
-	dol = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
-	print "Since " + dat(VAL_DATE) + ", the Wilshire 5000 is " + per(VAL_PERCENT) + " percent, or approximately $" + dol(VAL_DOLLAR)
+	percent = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
+	dollar = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
+	fact = "Since " + dat(VAL_DATE) + ", " + DESC + ", the Wilshire 5000 is " + percent(VAL_PERCENT) + " percent, or approximately $" + dollar(VAL_DOLLAR)
+	return fact
 
 cur_close = int(df.tail(1).iloc[:,0])
 cur_val = float(df.tail(1).iloc[:,3])
-#print "cur",cur_close,cur_val
+print "cur",cur_close,cur_val
 
 #Start Comparison
 for index, row in compare.iterrows():
-	d = int(row[0])
 	if int(row[0]) in milestones:
+		d = int(row[0])
 		desc = milestones[int(row[0])]
-	pre_val = float(row[1])
-	perc = round(float(1.00 - cur_val/pre_val),2)
-	dol = round(float(    ),1)
-	print type(d),d
-	print type(desc),desc
-	print type(pre_val),pre_val
-	print type(perc),perc
+		pre_val = float(row[1])
+		points = round(float(cur_val - pre_val),-2)
+		perc = round(float((cur_val/pre_val - 1)*100.00),2)
+		if pre_val*1.1 < 1000:
+			dol = round(float(4*(pre_val*1.1)),-2)
+		else:
+			dol = round(float(pre_val*1.1),-2)
+		#print d,desc,pre_val,perc
+		data = statement(d,desc,perc,dol)
+		print data
 
 #print df.tail(22)
 #df.dropna(thresh=2)
