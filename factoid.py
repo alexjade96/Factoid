@@ -75,7 +75,6 @@ def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
 	print df.tail(2)
-#append_line(df)
 
 def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
@@ -98,12 +97,14 @@ for index, row in compare.iterrows():
 		points = round(float(cur_val - pre_val),-2)
 		perc = round(float((cur_val/pre_val - 1)*100.00),2)
 		if pre_val*1.1 < 1000:
-			dol = round(float(4*(pre_val*1.1)),-2)
+			dol = round(float(4*(pre_val*1.1))*perc/100,-2)
 		else:
-			dol = round(float(pre_val*1.1),-2)
-		#print d,desc,pre_val,perc
-		data = statement(d,desc,perc,dol)
+			dol = round(float(pre_val*1.1)*perc/100,-2)
+		print d,pre_val,cur_val,perc,dol,points
+		data = statement(d,desc,perc,points)
 		print data
+
+#append_line(df)
 
 #print df.tail(22)
 #df.dropna(thresh=2)
