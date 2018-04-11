@@ -87,6 +87,18 @@ def adjust_dol(d):
 	else:
 		return 1.00
 
+def adjust_dol(d):
+	if d in range(19960628,19990930) or d > 20161231:
+		return 1.10
+	elif d in range(19990930,200000929) or d in range(20090331,20161231):
+		return 1.15
+	elif d in range(20000929,20040630) or d in range(20071231,20090331):
+		return 1.20
+	elif d in range(20040630,20071231):
+		return 1.25
+	else: #for d in range(19771230,19960628)
+		return 1.00
+
 def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
 	percent = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
@@ -112,14 +124,42 @@ for index, row in compare.iterrows():
 		points = round(float(cur_val - pre_val),-2)
 		perc = round(float((cur_val/pre_val - 1)*100.00),2)
 		multiplier = adjust_dol(d)
+<<<<<<< HEAD
 		if (pre_val*multiplier) < 1000:
 			dol = round(float(4*(pre_val*multiplier))*perc/100,-2)
+=======
+		if pre_val*1.1 < 1000:
+			dol = round(float(4*(pre_val*1.1))*perc/100,-2)
+>>>>>>> b12775376e5aff9b5a671f078fa611975b28da2c
 		else:
 			dol = round(float(pre_val*multiplier)*perc/100,-2)
 		print d,pre_val,cur_val,perc,dol,points
 		data = statement(d,desc,perc,points)
 		print data
 '''
+"""
+========================
+Logic for dollar values:
+========================
+All of the values AFTER 20170120 (so basically the dollar values in AM, AI, AG, AE, AB, Y,F), are the below formula:
+=IF(VALUE*1.1<1000,(ROUND(4*(VALUE*1.1),-2)/4),(ROUND(VALUE*1.1,-2)))
+if d > 20170120:
+
+Then for 20161108, 20151215, 20120912, 20100826 (AO,AQ,AS,AU) the formula is:
+=IF(VALUE*1.15<1000,(ROUND(4*(VALUE*1.15),-2)/4),(ROUND(VALUE*1.15,-2)))
+if d > 20100120:
+
+Then for 20090309 (AW), the formula is:
+=IF(VALUE*1.2<1000,(ROUND(4*(VALUE*1.2),-2)/4),(ROUND(VALUE*1.2,-2)))
+if d > 20080120:
+
+Finally for 20071009 (BK), the formula is:
+=IF(VALUE*1.25<1000,(ROUND(4*(VALUE*1.25),-2)/4),(ROUND(VALUE*1.25,-2)))
+else: #Date  is 20071009
+	
+"""
+
+
 """
 ========================
 Logic for dollar values:
