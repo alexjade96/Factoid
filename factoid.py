@@ -75,20 +75,35 @@ def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
 	print df.tail(2)
+def adjust_dol(d):
+	if (19960628 < d <= 19990930) or (d > 20161231):
+		return 1.10
+	elif (19990930 < d <= 20000929) or (20090331 < d <= 20161231):
+		return 1.15
+	elif (2000929 < d <= 20040630) or (20071231 < d <= 20090331):
+		return 1.20
+	elif (20040630 < d <= 20071231):
+		return 1.25
+	else:
+		return 1.00
 
 def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
 	percent = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
-	dollar = lambda y: str(float(y/1000.0)) + " trillion" if y >= 1000 else str(y) + " billion"
+	dollar = lambda y: str(abs(float(y/1000.0))) + " trillion" if y >= 1000 else str(abs(y)) + " billion"
 	fact = "Since " + dat(VAL_DATE) + ", " + DESC + ", the Wilshire 5000 is " + percent(VAL_PERCENT) + " percent, or approximately $" + dollar(VAL_DOLLAR)
 	return fact
 
-cur_close = int(df.tail(1).iloc[:,0])
-cur_val = float(df.tail(1).iloc[:,3])
+cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(datetime.datetime.now().strftime("%Y%m%d"))]#.iloc[:,[0,3]]
+cur_close = int(cur_df.iloc[:,0])
+cur_val = float(cur_df.iloc[:,3])
 print "cur",cur_close,cur_val
 print df.tail(2).head(1).iloc[:,[0,3]]
 print compare
+print cur_df.shift(1)
+print cur_df.shift(2)
 #Start Comparison
+'''
 for index, row in compare.iterrows():
 	if int(row[0]) in milestones:
 		d = int(row[0])
@@ -96,13 +111,37 @@ for index, row in compare.iterrows():
 		pre_val = float(row[1])
 		points = round(float(cur_val - pre_val),-2)
 		perc = round(float((cur_val/pre_val - 1)*100.00),2)
-		if pre_val*1.1 < 1000:
-			dol = round(float(4*(pre_val*1.1))*perc/100,-2)
+		multiplier = adjust_dol(d)
+		if (pre_val*multiplier) < 1000:
+			dol = round(float(4*(pre_val*multiplier))*perc/100,-2)
 		else:
-			dol = round(float(pre_val*1.1)*perc/100,-2)
+			dol = round(float(pre_val*multiplier)*perc/100,-2)
 		print d,pre_val,cur_val,perc,dol,points
 		data = statement(d,desc,perc,points)
 		print data
+'''
+"""
+========================
+Logic for dollar values:
+========================
+All of the values AFTER 20170120 (so basically the dollar values in AM, AI, AG, AE, AB, Y,F), are the below formula:
+=IF(VALUE*1.1<1000,(ROUND(4*(VALUE*1.1),-2)/4),(ROUND(VALUE*1.1,-2)))
+if d > 20170120:
+
+Then for 20161108, 20151215, 20120912, 20100826 (AO,AQ,AS,AU) the formula is:
+=IF(VALUE*1.15<1000,(ROUND(4*(VALUE*1.15),-2)/4),(ROUND(VALUE*1.15,-2)))
+if d > 20100120:
+
+Then for 20090309 (AW), the formula is:
+=IF(VALUE*1.2<1000,(ROUND(4*(VALUE*1.2),-2)/4),(ROUND(VALUE*1.2,-2)))
+if d > 20080120:
+
+Finally for 20071009 (BK), the formula is:
+=IF(VALUE*1.25<1000,(ROUND(4*(VALUE*1.25),-2)/4),(ROUND(VALUE*1.25,-2)))
+else: #Date  is 20071009
+	
+"""
+
 
 #append_line(df)
 
