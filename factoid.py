@@ -124,13 +124,8 @@ for index, row in compare.iterrows():
 		points = round(float(cur_val - pre_val),-2)
 		perc = round(float((cur_val/pre_val - 1)*100.00),2)
 		multiplier = adjust_dol(d)
-<<<<<<< HEAD
 		if (pre_val*multiplier) < 1000:
 			dol = round(float(4*(pre_val*multiplier))*perc/100,-2)
-=======
-		if pre_val*1.1 < 1000:
-			dol = round(float(4*(pre_val*1.1))*perc/100,-2)
->>>>>>> b12775376e5aff9b5a671f078fa611975b28da2c
 		else:
 			dol = round(float(pre_val*multiplier)*perc/100,-2)
 		print d,pre_val,cur_val,perc,dol,points
