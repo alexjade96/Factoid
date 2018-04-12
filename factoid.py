@@ -37,8 +37,8 @@ specs = [
 
 milestones = {
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
-	int(datetime.datetime.now().strftime("%Y%m01")):"the start of the month",
-	int(quarter(datetime.datetime.now())[0]):"the beginning of the quarter",
+	int(datetime.datetime.now().strftime("%Y%m01")):"for the month",
+	int(quarter(datetime.datetime.now())[0]):"for the quarter",
 	20170120:"the close on the day of the Trump Inauguration",
 	20161108:"the close on the day of the 2016 Election",
 	20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
@@ -75,6 +75,7 @@ def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
 	print df.tail(2)
+	'''
 def adjust_dol(d):
 	if (19960628 < d <= 19990930) or (d > 20161231):
 		return 1.10
@@ -86,12 +87,12 @@ def adjust_dol(d):
 		return 1.25
 	else:
 		return 1.00
-
+'''
 def adjust_dol(d):
 	val = 1.00	#Default if (19771230 < d <= 19960628)
 	if (19969628 < d <= 19990930) or (d > 20161231):
 		val = 1.10
-	if (19990930 < d <= 20000929) or (20071231 < d <= 20090331):
+	if (19990930 < d <= 20000929) or (20090331 < d <= 20161231):
 		val = 1.15
 	if (20000929 < d <= 20040630) or (20071231 < d <= 20090331):
 		val = 1.20
@@ -102,7 +103,7 @@ def adjust_dol(d):
 def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
 	percent = lambda p: "up " + str(p) if p >= 0 else "down " + str(p)
-	dollar = lambda y: str(abs(float(y/1000.0))) + " trillion" if y >= 1000 else str(abs(y)) + " billion"
+	dollar = lambda y: str(abs(float(y/1000.0))) + " trillion" if abs(y) >= 1000 else str(abs(y)) + " billion"
 	fact = "Since " + dat(VAL_DATE) + ", " + DESC + ", the Wilshire 5000 is " + percent(VAL_PERCENT) + " percent, or approximately $" + dollar(VAL_DOLLAR)
 	return fact
 
@@ -123,16 +124,16 @@ for index, row in compare.iterrows():
 		d = int(row[0])
 		desc = milestones[int(row[0])]
 		pre_val = float(row[1])
-		points = round(float(cur_val - pre_val),-2)
-		perc = round(float((cur_val/pre_val - 1)*100.00),2)
-		diff = float(cur_val - pre_val)
-		multiplier = adjust_dol(d)
+		points = round((cur_val - pre_val),-2)
+		perc = round(100.00*(cur_val/pre_val - 1),2)
+		diff = (cur_val - pre_val)
+		multiplier = float(adjust_dol(d))
+		dol = round(float(diff*multiplier),-2)
 		if (diff*multiplier) < 1000:
-			dol = round(float(4*(diff*multiplier))*perc/100,-2)
-		else:
-			dol = round(float(diff*multiplier)*perc/100,-2)
-		print d,pre_val,cur_val,perc,diff,dol,points
-		data = statement(d,desc,perc,points)
+			dol = round(float(dol * 4),-2)
+			
+		#print "=====",d,pre_val,cur_val,diff,perc,multiplier,dol,points,"====="
+		data = statement(d,desc,perc,dol)
 		print data
 
 """
