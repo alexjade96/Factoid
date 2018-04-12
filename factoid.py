@@ -88,16 +88,16 @@ def adjust_dol(d):
 		return 1.00
 
 def adjust_dol(d):
-	if d in range(19960628,19990930) or d > 20161231:
-		return 1.10
-	elif d in range(19990930,200000929) or d in range(20090331,20161231):
-		return 1.15
-	elif d in range(20000929,20040630) or d in range(20071231,20090331):
-		return 1.20
-	elif d in range(20040630,20071231):
-		return 1.25
-	else: #for d in range(19771230,19960628)
-		return 1.00
+	val = 1.00	#Default if (19771230 < d <= 19960628)
+	if (19969628 < d <= 19990930) or (d > 20161231):
+		val = 1.10
+	if (19990930 < d <= 20000929) or (20071231 < d <= 20090331):
+		val = 1.15
+	if (20000929 < d <= 20040630) or (20071231 < d <= 20090331):
+		val = 1.20
+	if (20040630 < d <= 20071231):
+		val = 1.25
+	return val
 
 def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	dat = lambda d: datetime.datetime.strptime(str(d),'%Y%m%d').strftime("%B %d, %Y")
