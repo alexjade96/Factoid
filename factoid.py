@@ -63,7 +63,7 @@ I) Current Market High
 J) Recent Market Low
 
 '''
-xl_file = "Wilshire Factoid Template.xlsx"
+xl_file = "Wilshire Factoid Worksheet.xlsx"
 sheet1 = "201801xx"
 
 xl = pd.ExcelFile(xl_file)
@@ -106,16 +106,18 @@ def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	fact = "Since " + dat(VAL_DATE) + ", " + DESC + ", the Wilshire 5000 is " + percent(VAL_PERCENT) + " percent, or approximately $" + dollar(VAL_DOLLAR)
 	return fact
 
-cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(datetime.datetime.now().strftime("%Y%m%d"))]#.iloc[:,[0,3]]
+chosen_date = pd.datetime.today() - BDay(1)
+cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(chosen_date.strftime("%Y%m%d"))]#.iloc[:,[0,3]]
+index = cur_df.index[0]
+print index
+print df.iloc[index-1,0:3]
 cur_close = int(cur_df.iloc[:,0])
 cur_val = float(cur_df.iloc[:,3])
 print "cur",cur_close,cur_val
 print df.tail(2).head(1).iloc[:,[0,3]]
 print compare
-print cur_df.shift(1)
-print cur_df.shift(2)
 #Start Comparison
-'''
+
 for index, row in compare.iterrows():
 	if int(row[0]) in milestones:
 		d = int(row[0])
@@ -123,15 +125,16 @@ for index, row in compare.iterrows():
 		pre_val = float(row[1])
 		points = round(float(cur_val - pre_val),-2)
 		perc = round(float((cur_val/pre_val - 1)*100.00),2)
+		diff = float(cur_val - pre_val)
 		multiplier = adjust_dol(d)
-		if (pre_val*multiplier) < 1000:
-			dol = round(float(4*(pre_val*multiplier))*perc/100,-2)
+		if (diff*multiplier) < 1000:
+			dol = round(float(4*(diff*multiplier))*perc/100,-2)
 		else:
-			dol = round(float(pre_val*multiplier)*perc/100,-2)
-		print d,pre_val,cur_val,perc,dol,points
+			dol = round(float(diff*multiplier)*perc/100,-2)
+		print d,pre_val,cur_val,perc,diff,dol,points
 		data = statement(d,desc,perc,points)
 		print data
-'''
+
 """
 ========================
 Logic for dollar values:
