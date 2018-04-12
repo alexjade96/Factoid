@@ -20,6 +20,8 @@ specs = [
 	int(datetime.datetime.now().strftime("%Y%m%d")),
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
 	int(datetime.datetime.now().strftime("%Y%m01")),
+	int(datetime.datetime.now().strftime("%Y%m02")),
+	int(datetime.datetime.now().strftime("%Y0102")),
 	int(quarter(datetime.datetime.now())[0]),
 	20180221,
 	20180220,
@@ -38,6 +40,8 @@ specs = [
 milestones = {
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
 	int(datetime.datetime.now().strftime("%Y%m01")):"for the month",
+	int(datetime.datetime.now().strftime("%Y%m02")):"for the month",
+	int(datetime.datetime.now().strftime("%Y0102")):"for the year",
 	int(quarter(datetime.datetime.now())[0]):"for the quarter",
 	20170120:"the close on the day of the Trump Inauguration",
 	20161108:"the close on the day of the 2016 Election",
@@ -108,6 +112,7 @@ def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	return fact
 
 chosen_date = pd.datetime.today() - BDay(1)
+
 cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(chosen_date.strftime("%Y%m%d"))]#.iloc[:,[0,3]]
 index = cur_df.index[0]
 print index
@@ -132,7 +137,7 @@ for index, row in compare.iterrows():
 		if (diff*multiplier) < 1000:
 			dol = round(float(dol * 4),-2)
 			
-		#print "=====",d,pre_val,cur_val,diff,perc,multiplier,dol,points,"====="
+		print "=====",d,pre_val,cur_val,diff,perc,multiplier,dol,points,"====="
 		data = statement(d,desc,perc,dol)
 		print data
 
