@@ -101,7 +101,9 @@ def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	fact = "Since " + dat(VAL_DATE) + ", " + DESC + ", the Wilshire 5000 is " + percent(VAL_PERCENT) + " percent, or approximately $" + dollar(VAL_DOLLAR)
 	return fact
 
-chosen_date = pd.datetime.today() - BDay(1)
+chosen_date = today
+if datetime.datetime.utcnow().hour < 14:
+	chosen_date = pd.datetime.today() - BDay(1)
 
 cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(chosen_date.strftime("%Y%m%d"))]#.iloc[:,[0,3]]
 index = cur_df.index[0]
@@ -113,6 +115,8 @@ print "cur",cur_close,cur_val
 print df.tail(2).head(1).iloc[:,[0,3]]
 print compare
 #Start Comparison
+
+outlist = []
 
 for index, row in compare.iterrows():
 	if int(row[0]) in milestones:
@@ -130,6 +134,10 @@ for index, row in compare.iterrows():
 		print "=====",d,pre_val,cur_val,diff,perc,multiplier,dol,points,"====="
 		data = statement(d,desc,perc,dol)
 		print data
+		outlist.append(data)
+
+for item in sorted(outlist):
+	print item
 
 """
 ========================
