@@ -19,6 +19,7 @@ q = quarter(datetime.datetime.now())[0]
 specs = [
 	int(datetime.datetime.now().strftime("%Y%m%d")),
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
+	int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")),
 	int(datetime.datetime.now().strftime("%Y%m01")),
 	int(datetime.datetime.now().strftime("%Y%m02")),
 	int(datetime.datetime.now().strftime("%Y0102")),
@@ -39,6 +40,7 @@ specs = [
 
 milestones = {
 	int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
+	int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")):"the last close",
 	int(datetime.datetime.now().strftime("%Y%m01")):"for the month",
 	int(datetime.datetime.now().strftime("%Y%m02")):"for the month",
 	int(datetime.datetime.now().strftime("%Y0102")):"for the year",
@@ -79,19 +81,7 @@ def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
 	df = df.append(test_insert)
 	print df.tail(2)
-	'''
-def adjust_dol(d):
-	if (19960628 < d <= 19990930) or (d > 20161231):
-		return 1.10
-	elif (19990930 < d <= 20000929) or (20090331 < d <= 20161231):
-		return 1.15
-	elif (2000929 < d <= 20040630) or (20071231 < d <= 20090331):
-		return 1.20
-	elif (20040630 < d <= 20071231):
-		return 1.25
-	else:
-		return 1.00
-'''
+
 def adjust_dol(d):
 	val = 1.00	#Default if (19771230 < d <= 19960628)
 	if (19969628 < d <= 19990930) or (d > 20161231):
