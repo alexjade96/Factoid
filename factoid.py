@@ -71,6 +71,9 @@ J) Recent Market Low
 '''
 xl_file = "Wilshire Factoid Worksheet.xlsx"
 sheet1 = "201801xx"
+outdir = "out"
+outfile = "factoid_"+datetime.datetime.now().strftime("%Y%m%d")+".txt"
+out = open(outfile,'w')
 
 xl = pd.ExcelFile(xl_file)
 xl.sheet_names
@@ -102,10 +105,11 @@ def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	return fact
 
 chosen_date = today
-if datetime.datetime.utcnow().hour < 14:
-	chosen_date = pd.datetime.today() - BDay(1)
-
 cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(chosen_date.strftime("%Y%m%d"))]#.iloc[:,[0,3]]
+while cur_df.empty:
+	chosen_date = pd.datetime.today() - BDay(1)
+	cur_df = df[df['Wilshire 5000 (Full Cap) Price'] == int(chosen_date.strftime("%Y%m%d"))]
+
 index = cur_df.index[0]
 print index
 print df.iloc[index-1,0:3]
@@ -124,7 +128,7 @@ for index, row in compare.iterrows():
 		desc = milestones[int(row[0])]
 		pre_val = float(row[1])
 		points = round((cur_val - pre_val),-2)
-		perc = round(100.00*(cur_val/pre_val - 1),2)
+		perc = round(float(cur_val/pre_val - 1)*100.00,2)
 		diff = (cur_val - pre_val)
 		multiplier = float(adjust_dol(d))
 		dol = round(float(diff*multiplier),-2)
@@ -134,34 +138,13 @@ for index, row in compare.iterrows():
 		print "=====",d,pre_val,cur_val,diff,perc,multiplier,dol,points,"====="
 		data = statement(d,desc,perc,dol)
 		print data
-		outlist.append(data)
+		if data not in outlist:
+			outlist.append(data)
 
-for item in sorted(outlist):
+for item in outlist:
 	print item
-
-"""
-========================
-Logic for dollar values:
-========================
-All of the values AFTER 20170120 (so basically the dollar values in AM, AI, AG, AE, AB, Y,F), are the below formula:
-=IF(VALUE*1.1<1000,(ROUND(4*(VALUE*1.1),-2)/4),(ROUND(VALUE*1.1,-2)))
-if d > 20170120:
-
-Then for 20161108, 20151215, 20120912, 20100826 (AO,AQ,AS,AU) the formula is:
-=IF(VALUE*1.15<1000,(ROUND(4*(VALUE*1.15),-2)/4),(ROUND(VALUE*1.15,-2)))
-if d > 20100120:
-
-Then for 20090309 (AW), the formula is:
-=IF(VALUE*1.2<1000,(ROUND(4*(VALUE*1.2),-2)/4),(ROUND(VALUE*1.2,-2)))
-if d > 20080120:
-
-Finally for 20071009 (BK), the formula is:
-=IF(VALUE*1.25<1000,(ROUND(4*(VALUE*1.25),-2)/4),(ROUND(VALUE*1.25,-2)))
-else: #Date  is 20071009
-	
-"""
-
-
+	out.write(item+"\n")
+out.close()
 """
 ========================
 Logic for dollar values:
