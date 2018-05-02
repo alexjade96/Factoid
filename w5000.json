@@ -1,0 +1,63 @@
+
+// [
+{
+"symbol" : "W5000",
+"exchange" : "INDEXNYSEGIS",
+"id": "114394689977529",
+"t" : "W5000",
+"e" : "INDEXNYSEGIS",
+"name" : "Wilshire 5000 Total Market Index (full cap)"
+, "f_reuters_url" : "http:\u002F\u002Fstocks.us.reuters.com\u002Fstocks\u002Fratios.asp?rpc=66\u0026symbol=",
+"f_recent_quarter_date" : "",
+"f_annual_date" : "",
+"f_ttm_date" : "",
+"financials" :
+[{
+"f_type" : "Income\u0026nbsp\u003BStatement"
+,"url" : "http://www.google.com/finance?fstype=ii&q=INDEXNYSEGIS:W5000"
+,"f_figures" :
+[
+]
+},
+{
+"f_type" : "Balance\u0026nbsp\u003BSheet"
+,"url" : "http://www.google.com/finance?fstype=bi&q=INDEXNYSEGIS:W5000"
+,"f_figures" :
+[
+]
+},
+{
+"f_type" : "Cash\u0026nbsp\u003BFlow"
+,"url" : "http://www.google.com/finance?fstype=ci&q=INDEXNYSEGIS:W5000"
+,"f_figures" :
+[
+]
+}],
+"kr_recent_quarter_date" : "",
+"kr_annual_date" : "",
+"kr_ttm_date" : "TTM",
+"keyratios" :
+[
+]
+, "c" : "+376.25",
+"l" : "27,984.01",
+"cp" : "1.36",
+"ccol" : "chg",
+"op" : "27,471.53",
+"hi" : "27,984.01",
+"lo" : "27,461.91",
+"vo" : "0.00",
+"avvo" : "",
+"hi52" : "29,760.60",
+"lo52" : "24,188.97",
+"mc" : "",
+"pe" : "",
+"fwpe" : "",
+"beta" : "",
+"eps" : "",
+"dy" : "",
+"ldiv" : "",
+"shares" : "",
+"instown" : "",
+"eo":""
+}]
