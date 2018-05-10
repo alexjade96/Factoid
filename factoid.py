@@ -1,3 +1,6 @@
+from pandas.tseries.holiday import AbstractHolidayCalendar, Holiday, nearest_workday, \
+	USMartinLutherKingJr, USPresidentsDay, GoodFriday, USMemorialDay, USLaborDay, \
+	USThanksgivingDay
 from pandas.tseries.offsets import BDay
 from datetime import timedelta
 import pandas as pd
@@ -9,6 +12,20 @@ import sys,os
 import json
 import time
 import csv
+
+#Create holiday calendar to deal with no market days
+class WilshireHolidayCalendar(AbstractHolidayCalendar):
+	rules = [
+		Holiday('NewYearsDay', month=1, day=1, observance=nearest_workday),
+		USMartinLutherKingJr,
+		USPresidentsDay,
+		GoodFriday,
+		USMemorialDay,
+		Holiday('USIndependenceDay', month=7, day=4, observance=nearest_workday),
+		USLaborDay,
+		USThanksgivingDay,
+		Holiday('Christmas', month=12, day=25, observance=nearest_workday)
+	]
 
 def append_line(df):
 	test_insert = pd.DataFrame(df[-1:].values, index=[int(df.last_valid_index())+1], columns=df.columns)
@@ -35,7 +52,6 @@ def statement(VAL_DATE,DESC,VAL_PERCENT,VAL_DOLLAR):
 	return fact
 
 def main(*args,**kwargs):
-
 	#Function to get fiscal quarter month for a given datetime date object: VAR = quarter(datetime.datetime.today())
 	today = datetime.datetime.today()
 	quarter = lambda q: [q.strftime("%Y"+"%02d" % ((m-1)//3 + 1)+"01") for m in range(1,13) if "%02d" % m == q.strftime("%m")]
