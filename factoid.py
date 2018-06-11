@@ -1,13 +1,21 @@
 from pandas.tseries.holiday import AbstractHolidayCalendar, Holiday, nearest_workday, \
 	USMartinLutherKingJr, USPresidentsDay, GoodFriday, USMemorialDay, USLaborDay, \
+<<<<<<< HEAD
 	USThanksgivingDay, SU, MO, TU, WE, TH, FR, SA
 from pandas.tseries.offsets import BDay, Day
 from pandas import DateOffset
+=======
+	USThanksgivingDay
+from pandas.tseries.offsets import BDay
+>>>>>>> 1f750d97b5c0ff3c9c04bc9298882c938a8c86c5
 from datetime import timedelta
 import pandas as pd
 import argparse
 import datetime
+<<<<<<< HEAD
 import calendar
+=======
+>>>>>>> 1f750d97b5c0ff3c9c04bc9298882c938a8c86c5
 import requests
 import urllib2
 import sys,os
@@ -26,7 +34,10 @@ class WilshireHolidayCalendar(AbstractHolidayCalendar):
 		Holiday('USIndependenceDay', month=7, day=4, observance=nearest_workday),
 		USLaborDay,
 		USThanksgivingDay,
+<<<<<<< HEAD
 		#Holiday('BlackFriday', month=11, day=1, offset=pd.DateOffset(weekday=FR(4))),
+=======
+>>>>>>> 1f750d97b5c0ff3c9c04bc9298882c938a8c86c5
 		Holiday('Christmas', month=12, day=25, observance=nearest_workday)
 	]
 
