@@ -166,7 +166,7 @@ def main(*args,**kwargs):
 			multiplier = float(adjust_dol(d))
 			dol = round(float(diff*multiplier),-2)
 			if (diff*multiplier) < 1000:
-				dol = round(float(dol * 4),-2)
+				dol = round(float(diff*multiplier * 4),-2)/4
 				
 			print "=====",d,pre_val,cur_val,diff,perc,multiplier,dol,points,"====="
 			data = statement(d,desc,perc,dol)
