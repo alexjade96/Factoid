@@ -1,7 +1,8 @@
 from pandas.tseries.holiday import AbstractHolidayCalendar, Holiday, nearest_workday, \
 	USMartinLutherKingJr, USPresidentsDay, GoodFriday, USMemorialDay, USLaborDay, \
 	USThanksgivingDay, SU, MO, TU, WE, TH, FR, SA
-from pandas.tseries.offsets import BDay, Day, BMonthBegin, BMonthEnd, BYearBegin, BYearEnd
+from pandas.tseries.offsets import BDay, Day, BMonthBegin, BMonthEnd, \
+	BYearBegin, BYearEnd, BQuarterBegin, BQuarterEnd
 from pandas import DateOffset
 from datetime import timedelta, date
 import pandas as pd
@@ -65,12 +66,16 @@ def main(*args,**kwargs):
 	specs = [
 		int(datetime.datetime.now().strftime("%Y%m%d")),
 		int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
-		int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")),
+		#int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")),
+		#int((BMonthBegin().rollback(date.today())).strftime("%Y%m%d")),
 		int((BMonthEnd().rollback(date.today())).strftime("%Y%m%d")),
-		int(datetime.datetime.now().strftime("%Y%m01")),
+		#int(datetime.datetime.now().strftime("%Y%m01")),
+		int((BQuarterBegin().rollback(date.today())).strftime("%Y%m%d")),
+		int((BQuarterEnd().rollback(date.today())).strftime("%Y%m%d")),
+		#int(quarter(datetime.datetime.now())[0]),
+		#int((BYearBegin().rollback(date.today())).strftime("%Y%m%d")),
 		int((BYearEnd().rollback(date.today())).strftime("%Y%m%d")),
-		int(datetime.datetime.now().strftime("%Y0102")),
-		int(quarter(datetime.datetime.now())[0]),
+		#int(datetime.datetime.now().strftime("%Y0102")),
 		20180221,
 		20180220,
 		20180219,
@@ -87,12 +92,16 @@ def main(*args,**kwargs):
 
 	milestones = {
 		int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
-		int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")):"the last close",
+		#int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")):"the last close",
+		#int((BMonthBegin().rollback(date.today())).strftime("%Y%m%d")):"for the month (begin)",
 		int((BMonthEnd().rollback(date.today())).strftime("%Y%m%d")):"for the month",
-		int(datetime.datetime.now().strftime("%Y%m01")):"for the month",
+		#int(datetime.datetime.now().strftime("%Y%m01")):"for the month (Null)",
+		int((BQuarterBegin().rollback(date.today())).strftime("%Y%m%d")):"for the quarter (begin)",
+		int((BQuarterEnd().rollback(date.today())).strftime("%Y%m%d")):"for the quarter (end)",
+		#int(quarter(datetime.datetime.now())[0]):"for the quarter (Null)",
+		#int((BYearBegin().rollback(date.today())).strftime("%Y%m%d")):"for the year (begin)",
 		int((BYearEnd().rollback(date.today())).strftime("%Y%m%d")):"for the year",
-		int(datetime.datetime.now().strftime("%Y0102")):"for the year",
-		int(quarter(datetime.datetime.now())[0]):"for the quarter",
+		#int(datetime.datetime.now().strftime("%Y0102")):"for the year (Null)",
 		20170120:"the close on the day of the Trump Inauguration",
 		20161108:"the close on the day of the 2016 Election",
 		20151215:"the close before the Federal Reserve raised interest rates for the first time since June 29, 2006",
