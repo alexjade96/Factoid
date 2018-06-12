@@ -3,8 +3,9 @@ from pandas.tseries.holiday import AbstractHolidayCalendar, Holiday, nearest_wor
 	USThanksgivingDay, SU, MO, TU, WE, TH, FR, SA
 from pandas.tseries.offsets import BDay, Day, BMonthBegin, BMonthEnd, \
 	BYearBegin, BYearEnd, BQuarterBegin, BQuarterEnd
-from pandas import DateOffset
+from dateutil.relativedelta import relativedelta
 from datetime import timedelta, date
+from pandas import DateOffset
 import pandas as pd
 import argparse
 import datetime
@@ -70,8 +71,8 @@ def main(*args,**kwargs):
 		#int((BMonthBegin().rollback(date.today())).strftime("%Y%m%d")),
 		int((BMonthEnd().rollback(date.today())).strftime("%Y%m%d")),
 		#int(datetime.datetime.now().strftime("%Y%m01")),
-		int((BQuarterBegin().rollback(date.today())).strftime("%Y%m%d")),
-		int((BQuarterEnd().rollback(date.today())).strftime("%Y%m%d")),
+		#int((BQuarterBegin().rollback(date.today())).strftime("%Y%m%d")),
+		int((BQuarterEnd().rollback(date.today().replace(day=1) - relativedelta(months=1)) - BDay(1)).strftime("%Y%m%d")),
 		#int(quarter(datetime.datetime.now())[0]),
 		#int((BYearBegin().rollback(date.today())).strftime("%Y%m%d")),
 		int((BYearEnd().rollback(date.today())).strftime("%Y%m%d")),
@@ -96,8 +97,8 @@ def main(*args,**kwargs):
 		#int((BMonthBegin().rollback(date.today())).strftime("%Y%m%d")):"for the month (begin)",
 		int((BMonthEnd().rollback(date.today())).strftime("%Y%m%d")):"for the month",
 		#int(datetime.datetime.now().strftime("%Y%m01")):"for the month (Null)",
-		int((BQuarterBegin().rollback(date.today())).strftime("%Y%m%d")):"for the quarter (begin)",
-		int((BQuarterEnd().rollback(date.today())).strftime("%Y%m%d")):"for the quarter (end)",
+		#int((BQuarterBegin().rollback(date.today())).strftime("%Y%m%d")):"for the quarter (begin)",
+		int((BQuarterEnd().rollback(date.today().replace(day=1) - relativedelta(months=1)) - BDay(1)).strftime("%Y%m%d")):"for the quarter",
 		#int(quarter(datetime.datetime.now())[0]):"for the quarter (Null)",
 		#int((BYearBegin().rollback(date.today())).strftime("%Y%m%d")):"for the year (begin)",
 		int((BYearEnd().rollback(date.today())).strftime("%Y%m%d")):"for the year",
