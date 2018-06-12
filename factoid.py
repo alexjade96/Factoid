@@ -1,21 +1,13 @@
 from pandas.tseries.holiday import AbstractHolidayCalendar, Holiday, nearest_workday, \
 	USMartinLutherKingJr, USPresidentsDay, GoodFriday, USMemorialDay, USLaborDay, \
-<<<<<<< HEAD
 	USThanksgivingDay, SU, MO, TU, WE, TH, FR, SA
-from pandas.tseries.offsets import BDay, Day
+from pandas.tseries.offsets import BDay, Day, BMonthBegin, BMonthEnd, BYearBegin, BYearEnd
 from pandas import DateOffset
-=======
-	USThanksgivingDay
-from pandas.tseries.offsets import BDay
->>>>>>> 1f750d97b5c0ff3c9c04bc9298882c938a8c86c5
-from datetime import timedelta
+from datetime import timedelta, date
 import pandas as pd
 import argparse
 import datetime
-<<<<<<< HEAD
 import calendar
-=======
->>>>>>> 1f750d97b5c0ff3c9c04bc9298882c938a8c86c5
 import requests
 import urllib2
 import sys,os
@@ -34,10 +26,7 @@ class WilshireHolidayCalendar(AbstractHolidayCalendar):
 		Holiday('USIndependenceDay', month=7, day=4, observance=nearest_workday),
 		USLaborDay,
 		USThanksgivingDay,
-<<<<<<< HEAD
 		#Holiday('BlackFriday', month=11, day=1, offset=pd.DateOffset(weekday=FR(4))),
-=======
->>>>>>> 1f750d97b5c0ff3c9c04bc9298882c938a8c86c5
 		Holiday('Christmas', month=12, day=25, observance=nearest_workday)
 	]
 
@@ -77,8 +66,9 @@ def main(*args,**kwargs):
 		int(datetime.datetime.now().strftime("%Y%m%d")),
 		int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")),
 		int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")),
+		int((BMonthEnd().rollback(date.today())).strftime("%Y%m%d")),
 		int(datetime.datetime.now().strftime("%Y%m01")),
-		int(datetime.datetime.now().strftime("%Y%m02")),
+		int((BYearEnd().rollback(date.today())).strftime("%Y%m%d")),
 		int(datetime.datetime.now().strftime("%Y0102")),
 		int(quarter(datetime.datetime.now())[0]),
 		20180221,
@@ -98,8 +88,9 @@ def main(*args,**kwargs):
 	milestones = {
 		int((pd.datetime.today() - BDay(1)).strftime("%Y%m%d")):"the last close",
 		int((pd.datetime.today() - BDay(2)).strftime("%Y%m%d")):"the last close",
+		int((BMonthEnd().rollback(date.today())).strftime("%Y%m%d")):"for the month",
 		int(datetime.datetime.now().strftime("%Y%m01")):"for the month",
-		int(datetime.datetime.now().strftime("%Y%m02")):"for the month",
+		int((BYearEnd().rollback(date.today())).strftime("%Y%m%d")):"for the year",
 		int(datetime.datetime.now().strftime("%Y0102")):"for the year",
 		int(quarter(datetime.datetime.now())[0]):"for the quarter",
 		20170120:"the close on the day of the Trump Inauguration",
